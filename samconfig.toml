@@ -1,0 +1,10 @@
+version = 0.1
+[default.deploy.parameters]
+stack_name = "file-manager-app"
+resolve_s3 = false
+s3_bucket = "file-manager-app-sam-assets-3r02fwky801m"
+region = "us-east-1"
+confirm_changeset = true
+capabilities = "CAPABILITY_IAM"
+disable_rollback = true
+image_repositories = []

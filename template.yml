@@ -1,0 +1,75 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Serverless file upload and metadata service (references pre-created resources)
+
+Globals:
+  Function:
+    Runtime: nodejs20.x
+    Timeout: 10
+    MemorySize: 128
+  Api:
+    BinaryMediaTypes:
+      - multipart/form-data
+      - text/csv
+      - application/pdf
+      - image/png
+      - image/jpeg
+
+Resources:
+
+  UploadFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: upload-file-lambda
+      CodeUri: ./file-manager-app
+      Handler: src/handlers/upload-file.lambdaHandler
+      Environment:
+        Variables:
+          BUCKET_NAME: file-manager-bucket-be08c5fc
+          TABLE_NAME: file-manager-table
+      Policies:
+        - S3WritePolicy:
+            BucketName: file-manager-bucket-be08c5fc
+        - DynamoDBCrudPolicy:
+            TableName: file-manager-table
+      Events:
+        UploadAPI:
+          Type: Api
+          Properties:
+            Path: /upload
+            Method: post
+
+  ExtractorFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: extract-metadata-lambda
+      CodeUri: ./file-manager-app
+      Handler: src/handlers/metadata-extractor.lambdaHandler
+      Environment:
+        Variables:
+          BUCKET_NAME: file-manager-bucket-be08c5fc
+          TABLE_NAME: file-manager-table
+      Policies:
+        - S3ReadPolicy:
+            BucketName: file-manager-bucket-be08c5fc
+        - DynamoDBCrudPolicy:
+            TableName: file-manager-table
+
+  RetrieveFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: retrieve-metadata-lambda
+      CodeUri: ./file-manager-app
+      Handler: src/handlers/retrieve-metadata.lambdaHandler
+      Environment:
+        Variables:
+          TABLE_NAME: file-manager-table
+      Policies:
+        - DynamoDBReadPolicy:
+            TableName: file-manager-table
+      Events:
+        RetrieveAPI:
+          Type: Api
+          Properties:
+            Path: /metadata/{file_id}
+            Method: get

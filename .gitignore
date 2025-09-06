@@ -1,3 +1,16 @@
+# SAM build artifacts
+.aws-sam/
+
+# Terraform state and lock files
+*.tfstate
+*.tfstate.backup
+.terraform/
+.terraform.lock.hcl
+terraform.tfvars
+
+# Terraform binary if present
+terraform.exe
+
 # Logs
 logs
 *.log
