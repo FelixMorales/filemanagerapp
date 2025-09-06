@@ -27,7 +27,7 @@ This project implements a serverless file management system using **AWS Lambda**
    sam deploy
    ```
 2. **Terraform:** S3 bucket, DynamoDB table, and S3 trigger creation
-    - Retrieve Metadata Extraction ARN and replace it in the main.tf file
+    - Retrieve Metadata Extraction ARN and replace it in the "extractor_s3_permission" and "extractor_trigger" resources
     - Execute terraform commands
     ```bash
     terraform plan
