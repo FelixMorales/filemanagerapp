@@ -12,9 +12,7 @@ This project implements a serverless file management system using **AWS Lambda**
 
 ## Challenges Faced
 - **Circular Dependencies:** Initially tried defining S3 triggers in SAM, but Lambda/S3 dependencies required Terraform for triggers.  
-- **PDF Parsing in Lambda:** The `pdf-parse` library required importing from `/lib` to avoid runtime errors in Lambda.  
-- **S3 ACL & Bucket Policies:** Modern S3 defaults do not allow ACLs; had to adjust permissions using Lambda execution roles.  
-- **SAM Local Testing:** Handling multipart/form-data required enabling `BinaryMediaTypes` and simulating `event.json` payloads.  
+- **PDF Parsing in Lambda:** The `pdf-parse` library required importing from `/lib` to avoid runtime errors in Lambda.
 
 ## Assumptions
 - The file uploads are reasonably sized and can fit in Lambda memory (128MB).  
