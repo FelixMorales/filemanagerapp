@@ -11,7 +11,7 @@ This project implements a serverless file management system using **AWS Lambda**
 - **Authentication & Security**: The API Gateway endpoints currently do **not** implement authentication or authorization. In a production scenario, it is recommended to secure the endpoints using common RESTful authentication methods such as OAuth, JWT validation, etc.
 
 ## Challenges Faced
-- **Circular Dependencies:** Initially tried defining S3 triggers in SAM, but Lambda/S3 dependencies required Terraform for triggers.  
+- **Circular Dependencies:** Initially tried defining S3 triggers in SAM, but this caused some circular dependency issues. The solution was to define the S3 and S3 trigger using Terraform
 - **PDF Parsing in Lambda:** The `pdf-parse` library required importing from `/lib` to avoid runtime errors in Lambda.
 
 ## Assumptions
